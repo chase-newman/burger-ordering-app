@@ -5,6 +5,7 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
+
 const INGREDIENT_PRICES = {
     salad: 0.5,
     cheese: 0.4,
@@ -92,6 +93,13 @@ class builder extends Component {
         }
     }
     
+    purchaseCancelHandler = () => {
+        this.setState({purchasing: false});
+    }
+    
+    purchaseContinueHandler = () => {
+        alert("You clicked continue!");
+    }
     
     render() {
         //Make a copy of ingredients
@@ -107,10 +115,15 @@ class builder extends Component {
         //ex. {salad: true, meat: true, etc...}
         return (
             <Aux>
-                <Modal show={this.state.purchasing}>
+                <Modal 
+                    show={this.state.purchasing}
+                    modalClosed={this.purchaseCancelHandler}>
                     <OrderSummary 
-                        ingredients={this.state.ingredients}/>
-                </Modal>
+                        ingredients={this.state.ingredients}
+                        price={this.state.totalPrice}
+                        purchaseCancelled={this.purchaseCancelHandler}
+                        purchaseContinued={this.purchaseContinueHandler}/>
+                    </Modal>
                 <Burger ingredients={this.state.ingredients}/>
                 <BuildControls
                     price={this.state.totalPrice}
